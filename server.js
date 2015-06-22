@@ -27,8 +27,16 @@ io.sockets.on('connection', function (socket) {
   //all the socket code goes in here!
  	socket.on("button_click", function (data){
  		count++;
- 		console.log(count);
- 		socket.emit('update_counter', {counter: count});
+ 		io.emit('update_counter', {counter: count});
 
-	});
-}
+	})
+	socket.on("button_reset", function (data){
+ 		count = 0;
+ 		io.emit('update_counter', {counter: count});
+
+	})
+
+	socket.on("new_view", function (data){
+ 		socket.emit('update_counter', {counter: count});
+	})
+})

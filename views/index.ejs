@@ -1,13 +1,10 @@
 <html>
 <head>
 	<style>
-	label{
-		padding-left:5px;
-		margin-right: 10px;
-	}
     button{
         width: 200px;
         height: 40px;
+        margin-bottom:10px;
     }
 	</style>
 	<title>Synched Counter Demo</title>
@@ -20,21 +17,29 @@ $(document).ready(function (){
     var socket = io.connect();
     // we'll write all the socket stuff after the above line!
    
-    $('#add').submit(function(event) {
+    $('#add').click(function(event) {
         socket.emit('button_click', {});
         event.preventDefault();
     });
 
+    $('#reset').click(function(event) {
+        socket.emit('button_reset', {});
+        event.preventDefault();
+    });
+
     socket.on('update_counter', function (data){ 
+    $('h2').html("" + data.counter);
     console.log(data.counter);      
        });
+    socket.emit('new_view', {});
 
 })
     </script>
 </head>
 <body>
-    <button id='add'>PUSH ME</button>
-    <button id='reset'>RESET</button>
+    <h2></h2>
+    <button id='add'>PUSH ME</button><br>
+    <button id='reset' style='background-color: red'>RESET</button>
 
 </body>
 </html>
