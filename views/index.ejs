@@ -1,0 +1,40 @@
+<html>
+<head>
+	<style>
+	label{
+		padding-left:5px;
+		margin-right: 10px;
+	}
+    button{
+        width: 200px;
+        height: 40px;
+    }
+	</style>
+	<title>Synched Counter Demo</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script type ="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script type ="text/javascript">
+    
+$(document).ready(function (){
+    // this triggers the connection event in our server!
+    var socket = io.connect();
+    // we'll write all the socket stuff after the above line!
+   
+    $('#add').submit(function(event) {
+        socket.emit('button_click', {});
+        event.preventDefault();
+    });
+
+    socket.on('update_counter', function (data){ 
+    console.log(data.counter);      
+       });
+
+})
+    </script>
+</head>
+<body>
+    <button id='add'>PUSH ME</button>
+    <button id='reset'>RESET</button>
+
+</body>
+</html>
